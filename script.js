@@ -1,17 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-  
   const btnTema = document.querySelector('#btnToggleTema');
   const bodyHalaman = document.querySelector('body');
+  const kunciTema = 'preferensi-tema';
+
+  if (localStorage.getItem(kunciTema) === 'terang') {
+    bodyHalaman.classList.add('light-mode');
+  }
+
+  function perbaruiLabelTema() {
+    btnTema.textContent = bodyHalaman.classList.contains('light-mode')
+      ? '🌙 Mode Gelap'
+      : '☀️ Mode Terang';
+  }
 
   if (btnTema) {
+    perbaruiLabelTema();
     btnTema.addEventListener('click', function() {
       bodyHalaman.classList.toggle('light-mode');
-      
-      if (bodyHalaman.classList.contains('light-mode')) {
-        btnTema.textContent = '🌙 Mode Gelap';
-      } else {
-        btnTema.textContent = '☀️ Mode Terang';
-      }
+      localStorage.setItem(
+        kunciTema,
+        bodyHalaman.classList.contains('light-mode') ? 'terang' : 'gelap'
+      );
+      perbaruiLabelTema();
     });
   }
 
@@ -32,12 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const teksSapaan = document.querySelector('#sapaan');
-const jamSekarang = new Date().getHours();
+if (teksSapaan) {
+  const jamSekarang = new Date().getHours();
 
-if (jamSekarang < 12) {
-  teksSapaan.textContent = "🌅 Selamat Pagi, Selamat Datang di Profil Saya!";
-} else if (jamSekarang < 18) {
-  teksSapaan.textContent = "☀️ Selamat Siang, Selamat Datang di Profil Saya!";
-} else {
-  teksSapaan.textContent = "🌙 Selamat Malam, Selamat Datang di Profil Saya!";
+  if (jamSekarang < 12) {
+    teksSapaan.textContent = "🌅 Selamat Pagi, Selamat Datang di Profil Saya!";
+  } else if (jamSekarang < 18) {
+    teksSapaan.textContent = "☀️ Selamat Siang, Selamat Datang di Profil Saya!";
+  } else {
+    teksSapaan.textContent = "🌙 Selamat Malam, Selamat Datang di Profil Saya!";
+  }
 }
